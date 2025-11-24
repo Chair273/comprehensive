@@ -1,6 +1,9 @@
 package comprehensive;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.io.File;
@@ -9,12 +12,15 @@ import java.io.FileNotFoundException;
 public class Glossary {
 	private TreeMap<String, Term> glossary;
 	private HashMap<String, Integer> posCounts;
+	
 	private int definitions;
 
 	public Glossary(String filePath) {
 		glossary = new TreeMap<String, Term>();
-		readFile(filePath);
+		posCounts = new HashMap<String, Integer>();
 		definitions = 0;
+		
+		readFile(filePath);
 	}
 
 	private void readFile(String filePath) {
@@ -70,5 +76,21 @@ public class Glossary {
 		
 		int count = posCounts.get(pos);
 		posCounts.put(pos, count + 1);
+	}
+	
+	
+	public int getPosCount()
+	{
+		return posCounts.size();
+	}
+	
+	public String getFirst()
+	{
+		return glossary.firstKey();
+	}
+	
+	public String getLast()
+	{
+		return glossary.lastKey();
 	}
 }

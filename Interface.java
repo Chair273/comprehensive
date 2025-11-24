@@ -12,7 +12,8 @@ public class Interface {
 
 	public Interface(String filePath) {
 		glossary = new Glossary(filePath);
-
+		
+		update();
 	}
 
 	private void update() {
@@ -58,7 +59,7 @@ public class Interface {
 				case 10:
 	
 				case 11:
-
+					return;
 				default:
 					System.out.println("Invalid selection");
 			}
@@ -71,10 +72,12 @@ public class Interface {
 	}
 	
 	private void getMetadata() {
-		System.out.println("Words: " + glossary.size());
-		System.out.println("Definitions: " + glossary.definitions());
+		System.out.println("words: " + glossary.size());
+		System.out.println("definitions: " + glossary.definitions());
 		Double defPerWord = (double) glossary.definitions() / glossary.size();
-		System.out.println("Definitions per Word: " + String.format(defPerWord + "", "%.3f"));
-		System.out.println("Parts of Speech: " + String.format(defPerWord + "", "%.3f"));
+		System.out.println("definitions per Word: " + String.format(defPerWord + "", "%.3f"));
+		System.out.println("parts of Speech: " + glossary.getPosCount());
+		System.out.println("first word: " + glossary.getFirst());
+		System.out.println("last word: " + glossary.getLast());
 	}
 }
