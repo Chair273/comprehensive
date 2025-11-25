@@ -1,16 +1,24 @@
 package comprehensive;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
 
 public class Term {
+	private int size;
+	
 	private String word;
 	
 	private HashMap<String, TreeSet<String>> definitions;
-	
+
+	private static final String[] posOrder = new String[] {
+			"adj", "adv", "conj", "interj", "noun", "prep", "pron", "verb"
+	};
 	
 	public Term(String word, String pos, String def) {
 		this.word = word;
+		
+		size = 0;
 		
 		definitions = new HashMap<String, TreeSet<String>>();
 		
@@ -18,11 +26,34 @@ public class Term {
 	}
 	
 	public boolean add(String pos, String def) {
-		if (!definitions.containsKey(pos)) {
+		if (!definitions.containsKey(pos))
 			definitions.put(pos, new TreeSet<String>());
-			//System.out.println("Term: " + word + "; Part of Speech: " + pos + "; Definition: " + def);
+		
+		boolean added = definitions.get(pos).add(def);
+		if (added) size++;
+		
+		return added;
+	}
+	
+	public String[] getDefinitions()
+	{
+		int i = 1;
+		String[] returnArr = new String[size + 1];
+		TreeSet<String> posDef;
+		
+		returnArr[0] = word;
+		
+		for (String pos : posOrder)
+		{
+			if (!definitions.containsKey(pos)) continue;
+			
+			posDef = definitions.get(pos);
+			
+			for (String def : definitions.get(pos))
+				returnArr[i++] = "\t" + pos + ".\t" + def;
 		}
-		return definitions.get(pos).add(def);
+		
+		return returnArr;
 	}
 	
 }

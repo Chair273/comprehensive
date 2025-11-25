@@ -97,4 +97,11 @@ public class Glossary {
 		NavigableMap<String, Term> subMap = glossary.subMap(start, true, end, true);
 		return subMap.keySet();
 	}
+	
+	public String[] getWord(String word)
+	{
+		Term term = glossary.get(word);
+		
+		return term == null ? new String[] {"Invalid selection."} : term.getDefinitions();
+	}
 }

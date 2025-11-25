@@ -38,7 +38,7 @@ public class Interface {
 			switch (command) {
 				case 1 -> getMetadata();
 				case 2 -> getInRange();
-				case 3 -> System.out.println("Uh oh");
+				case 3 -> getWord();
 				case 4 -> System.out.println("Uh oh");
 				case 5 -> System.out.println("Uh oh");
 				case 6 -> System.out.println("Uh oh");
@@ -89,5 +89,18 @@ public class Interface {
 		for (String word : words) {
 			System.out.println("\t" + word);
 		}
+	}
+	
+	private void getWord()
+	{
+		System.out.print("Select a word: ");
+		String word = scanner.next();
+		
+		System.out.println();
+		
+		String[] definitions = glossary.getWord(word);
+		
+		for (String def : definitions)
+			System.out.println(def);
 	}
 }
