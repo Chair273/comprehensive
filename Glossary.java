@@ -91,17 +91,16 @@ public class Glossary {
 	public String getLast() {
 		return glossary.lastKey();
 	}
-	
+
 	public Set<String> getInRange(String start, String end) {
 		// TODO: Replace with keySet of entire glossary then iterate through that?
 		NavigableMap<String, Term> subMap = glossary.subMap(start, true, end, true);
 		return subMap.keySet();
 	}
-	
-	public String[] getWord(String word)
-	{
+
+	public String[] getWord(String word) {
 		Term term = glossary.get(word);
-		
-		return term == null ? new String[] {"Invalid selection."} : term.getDefinitions();
+
+		return term == null ? new String[] { "Invalid selection." } : term.getDefinitions();
 	}
 }

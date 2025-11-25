@@ -36,21 +36,21 @@ public class Interface {
 			System.out.println();
 
 			switch (command) {
-				case 1 -> getMetadata();
-				case 2 -> getInRange();
-				case 3 -> getWord();
-				case 4 -> System.out.println("Uh oh");
-				case 5 -> System.out.println("Uh oh");
-				case 6 -> System.out.println("Uh oh");
-				case 7 -> System.out.println("Uh oh");
-				case 8 -> System.out.println("Uh oh");
-				case 9 -> System.out.println("Uh oh");
-				case 10 -> System.out.println("Uh oh");
-				case 11 -> {
-					scanner.close();
-					return;
-				}
-				default -> System.out.println("Invalid selection");
+			case 1 -> getMetadata();
+			case 2 -> getInRange();
+			case 3 -> getWord();
+			case 4 -> System.out.println("Uh oh");
+			case 5 -> System.out.println("Uh oh");
+			case 6 -> System.out.println("Uh oh");
+			case 7 -> System.out.println("Uh oh");
+			case 8 -> System.out.println("Uh oh");
+			case 9 -> System.out.println("Uh oh");
+			case 10 -> System.out.println("Uh oh");
+			case 11 -> {
+				scanner.close();
+				return;
+			}
+			default -> System.out.println("Invalid selection");
 			}
 			System.out.println();
 		}
@@ -71,15 +71,15 @@ public class Interface {
 		System.out.println("first word: " + glossary.getFirst());
 		System.out.println("last word: " + glossary.getLast());
 	}
-	
+
 	private void getInRange() {
 		System.out.print("Starting word: ");
 		String startWord = scanner.next();
-		
+
 		System.out.print("Ending word: ");
 		String endWord = scanner.next();
 		System.out.println();
-		
+
 		if (startWord.compareTo(endWord) > 0) {
 			System.out.println("Invalid selection");
 			return;
@@ -90,16 +90,15 @@ public class Interface {
 			System.out.println("\t" + word);
 		}
 	}
-	
-	private void getWord()
-	{
+
+	private void getWord() {
 		System.out.print("Select a word: ");
 		String word = scanner.next();
-		
+
 		System.out.println();
-		
+
 		String[] definitions = glossary.getWord(word);
-		
+
 		for (String def : definitions)
 			System.out.println(def);
 	}
