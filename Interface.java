@@ -17,53 +17,56 @@ public class Interface {
 	}
 
 	private void update() {
+		Scanner scanner = new Scanner(System.in);
 		while (true) {
 			System.out.println("Main menu");
 			printArray(commands);
-			System.out.println("\nSelect an option: ");
+			System.out.print("\nSelect an option: ");
 
-			Scanner scanner = new Scanner(System.in);
+
 			int command;
 
 			try {
 				command = scanner.nextInt();
 			} catch (InputMismatchException e) {
 				System.out.println("Invalid selection");
-				scanner.close();
 
 				continue;
 			}
 
-			scanner.close();
 			System.out.println();
 
 			switch (command) {
-				case 1: getMetadata();
+				case 1 -> getMetadata();
 					
-				case 2:
-	
-				case 3:
-	
-				case 4:
-	
-				case 5:
-	
-				case 6:
-	
-				case 7:
-	
-				case 8:
-	
-				case 9:
-	
-				case 10:
-	
-				case 11:
+				case 2 ->
+				System.out.println("Uh oh");
+				case 3 ->
+				System.out.println("Uh oh");
+				case 4 ->
+					System.out.println("Uh oh");
+				case 5 ->
+					System.out.println("Uh oh");
+				case 6 ->
+					System.out.println("Uh oh");
+				case 7 ->
+					System.out.println("Uh oh");
+				case 8 ->
+					System.out.println("Uh oh");
+				case 9 ->
+					System.out.println("Uh oh");
+				case 10 ->
+					System.out.println("Uh oh");
+				case 11 ->
+				{
+					scanner.close();
 					return;
-				default:
+				}
+				default->
 					System.out.println("Invalid selection");
 			}
 		}
+		
 	}
 
 	private void printArray(String[] arr) {
