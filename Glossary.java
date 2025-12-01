@@ -99,7 +99,7 @@ public class Glossary {
 	public String[] getWord(String word) {
 		Term term = glossary.get(word);
 
-		return term == null ? new String[] { "Invalid selection." } : term.getDefinitions();
+		return term == null ? new String[] { word + " not found" } : term.getDefinitions();
 	}
 
 	public String[] getPOS(String word) {
@@ -179,7 +179,7 @@ public class Glossary {
 		
 		try {
 			FileWriter writer = new FileWriter(filePath);
-			writer.write(sb.substring(0, sb.length() - 2));
+			writer.write(sb.substring(0, sb.length() - 1));
 			writer.close();
 		} catch (IOException e) {
 			return false;

@@ -24,7 +24,7 @@ public class Interface {
 			printArray(commands);
 			System.out.print("\nSelect an option: ");
 			int command = getInt();
-			System.out.println();
+			// System.out.println();
 
 			switch (command) {
 			case 1 -> getMetadata();
@@ -77,10 +77,11 @@ public class Interface {
 	}
 
 	private void getMetadata() {
-		System.out.println("words: " + glossary.size());
+		System.out.println("\nwords: " + glossary.size());
 		System.out.println("definitions: " + glossary.definitions());
 		Double defPerWord = (double) glossary.definitions() / glossary.size();
-		System.out.println("definitions per word: " + String.format(defPerWord + "", "%.3f"));
+
+		System.out.println("definitions per word: " + String.format("%.3f", defPerWord));
 		System.out.println("parts of speech: " + glossary.getPosCount());
 		System.out.println("first word: " + glossary.getFirst());
 		System.out.println("last word: " + glossary.getLast());
@@ -120,6 +121,7 @@ public class Interface {
 	}
 
 	private void getFirstWord() {
+		System.out.println();
 		String[] definitions = glossary.getWord(glossary.getFirst());
 
 		for (String def : definitions)
@@ -127,6 +129,7 @@ public class Interface {
 	}
 
 	private void getLastWord() {
+		System.out.println();
 		String[] definitions = glossary.getWord(glossary.getLast());
 
 		for (String def : definitions)
@@ -148,8 +151,6 @@ public class Interface {
 	private void updateDef() {
 		System.out.print("Select a word: ");
 		String word = getInput();
-
-		System.out.println();
 
 		String[][] definitions = glossary.getSplit(word);// handle invalid word later
 
@@ -208,7 +209,7 @@ public class Interface {
 		System.out.println("Definitions for " + word);
 
 		for (String[] pair : definitions)
-			System.out.println((num++) + ". " + pair[0] + " .\t" + pair[1]);
+			System.out.println((num++) + ". " + pair[0] + ". \t" + pair[1]);
 
 		System.out.print(num + ". Back to main menu\n\nSelect a definition to remove: ");
 
@@ -239,26 +240,24 @@ public class Interface {
 		System.out.print("Type a word: ");
 		String word = getInput();
 
-		if (!glossary.containsWord(word)) {
-			System.out.println("Invalid selection");
-			return;
-		}
+		/*
+		 * if (!glossary.containsWord(word)) { System.out.println("Invalid selection");
+		 * return; }
+		 */
 
 		System.out.print(
-				"\nValid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]\nType a valid part of speech: ");
+				"Valid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]\nType a valid part of speech: ");
 		String pos = getInput();
 
-		System.out.println();
+		boolean isValidPOS = false;
 
-		boolean contains = false;
-
-		for (String validPos : Term.posOrder)
-			if (validPos.equals(pos)) {
-				contains = true;
+		for (String validPOS : Term.posOrder)
+			if (validPOS.equals(pos)) {
+				isValidPOS = true;
 				break;
 			}
 
-		if (!contains) {
+		if (!isValidPOS) {
 			System.out.println("Invalid selection");
 			return;
 		}
@@ -266,22 +265,20 @@ public class Interface {
 		System.out.print("Type a definition: ");
 
 		if (glossary.add(word, pos, getInput()))
-			System.out.println("\n\nSuccessfully added!");
+			System.out.println("\nSuccessfully added!");
 		else
-			System.out.println("\n\nThis definition was already added.");
+			System.out.println("\nThis definition was already added.");
 	}
-	
-	private void saveToFile()
-	{
+
+	private void saveToFile() {
 		System.out.print("Type a filename with path: ");
 		String filePath = getInput();
 		System.out.println();
-		
+
 		if (glossary.saveToFile(filePath))
 			System.out.println("Successfully saved dictionary to " + filePath);
 		else
 			System.out.println("Failed to save dictionary");
-		
-		
+
 	}
 }

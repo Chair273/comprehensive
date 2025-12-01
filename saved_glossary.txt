@@ -1,0 +1,15 @@
+algorithm::noun::A detailed, unambiguous process for solving a problem.
+data structure::noun::A way of organizing data, specifically in terms of its storage and management.
+generic::adj::A programming paradigm based on classes or static methods that are defined independent of data type.
+generic::noun::A parameterized type in Java, denoted with <>.
+graph::noun::A set of vertices and a set of edges that connect those vertices.
+hashing::verb::The process of transforming any given data into an integer value.
+logic proposition::noun::A statement that is unambiguously true or false.
+queue::noun::A collection of elements that are maintained in sequence.
+queue::noun::A collection of elements that operates on a first-in-first-out (LIFO) basis.
+sorting::verb::The process of arranging elements in a specific order, according to a given criterion.
+stack::noun::A collection of elements that operates on a last-in-first-out (LIFO) basis.
+tree::noun::A directed graph in which any two vertices are connected by exactly one path.
+tree::noun::A tree with exactly one node designated as the root and every node as at most two children.
+tree::noun::An acyclic connected digraph.
+tree::verb::To drive an animal or person into or up a tree.
