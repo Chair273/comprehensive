@@ -33,28 +33,31 @@ public class Interface {
 			case 4 -> getFirstWord();
 			case 5 -> getLastWord();
 			case 6 -> getPOS();
-			case 7 -> System.out.println("Uh oh");
-			case 8 -> System.out.println("Uh oh");
+			case 7 -> updateDef();
+			case 8 -> deleteDef();
 			case 9 -> System.out.println("Uh oh");
 			case 10 -> System.out.println("Uh oh");
-			case 11 -> { return; }
-			
+			case 11 -> {
+				return;
+			}
+
 			default -> System.out.println("Invalid selection");
 			}
 			System.out.println();
 		}
 
 	}
-	
+
 	/**
 	 * Get user input.
+	 * 
 	 * @return
 	 */
 	private String getInput() {
 		Scanner s = new Scanner(System.in);
 		return s.nextLine();
 	}
-	
+
 	private int getInt() {
 		Scanner s = new Scanner(System.in);
 		int command = -1;
@@ -101,8 +104,8 @@ public class Interface {
 			System.out.println("\t" + word);
 		}
 	}
-	
-	// Condense the next two methods?
+
+	// Condense the next three methods?
 
 	private void getWord() {
 		System.out.print("Select a word: ");
@@ -115,23 +118,22 @@ public class Interface {
 		for (String def : definitions)
 			System.out.println(def);
 	}
-	
+
 	private void getFirstWord() {
 		String[] definitions = glossary.getWord(glossary.getFirst());
 
 		for (String def : definitions)
 			System.out.println(def);
 	}
-	
+
 	private void getLastWord() {
 		String[] definitions = glossary.getWord(glossary.getLast());
 
 		for (String def : definitions)
 			System.out.println(def);
 	}
-	
-	private void getPOS()
-	{
+
+	private void getPOS() {
 		System.out.print("Select a word: ");
 		String word = getInput();
 
@@ -142,54 +144,89 @@ public class Interface {
 		for (String def : definitions)
 			System.out.println(def);
 	}
-	
-	private void updateDef()
-	{
+
+	private void updateDef() {
 		System.out.print("Select a word: ");
 		String word = getInput();
 
 		System.out.println();
 
-		String[][] definitions = glossary.getSplit(word);//handle invalid word later
-		
-		if (definitions == null)
-		{
+		String[][] definitions = glossary.getSplit(word);// handle invalid word later
+
+		if (definitions == null) {
 			System.out.println("Invalid selection");
 			return;
 		}
-		
+
 		int num = 1;
-		
+
 		System.out.println("Definitions for " + word);
 
 		for (String[] pair : definitions)
-			System.out.println((num++) + ". " + pair[0] + "./t" + pair[1]);
-		
-		System.out.print(num + ". Back to main menu/n/nSelect a definition to update: ");
-		
+			System.out.println((num++) + ". " + pair[0] + ".\t" + pair[1]);
+
+		System.out.print(num + ". Back to main menu\n\nSelect a definition to update: ");
+
 		int command = getInt();
-	
-		
+
 		if (command == num)
 			return;
-		
-		if (command < 1 || command > num)
-		{
+
+		if (command < 1 || command > num) {
 			System.out.println("Invalid selection");
 			return;
 		}
-		
-		System.out.print("/nType a new definition: ");
-		
+
+		System.out.print("\nType a new definition: ");
+
 		String newDef = getInput();
-		
+
 		System.out.println();
-			
-		
-		if (glossary.updateDefinition(word, definitions[command - 1][0], definitions[command - 1][0], newDef))
+
+		if (glossary.updateDef(word, definitions[command - 1][0], definitions[command - 1][1], newDef))
 			System.out.println("Definition updated");
 		else
 			System.out.println("Definition not updated");
-		
+
+	}
+	
+	private void deleteDef() {
+		System.out.print("Select a word: ");
+		String word = getInput();
+
+		System.out.println();
+
+		String[][] definitions = glossary.getSplit(word);
+
+		if (definitions == null) {
+			System.out.println("Invalid selection");
+			return;
+		}
+
+		int num = 1;
+
+		System.out.println("Definitions for " + word);
+
+		for (String[] pair : definitions)
+			System.out.println((num++) + ". " + pair[0] + ".\t" + pair[1]);
+
+		System.out.print(num + ". Back to main menu\n\nSelect a definition to remove: ");
+
+		int command = getInt();
+
+		if (command == num)
+			return;
+
+		if (command < 1 || command > num) {
+			System.out.println("Invalid selection");
+			return;
+		}
+
+		System.out.println();
+
+		if (glossary.deleteDef(word, definitions[command - 1][0], definitions[command - 1][1]))
+			System.out.println("Definition removed");
+		else
+			System.out.println("Definition not removed");
 	}
 }

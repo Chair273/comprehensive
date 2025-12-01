@@ -67,11 +67,6 @@ public class Glossary {
 		}
 	}
 
-	public boolean changeDef() {
-
-		return false;
-	}
-
 	private void addPos(String pos) {
 		if (!posCounts.containsKey(pos))
 			posCounts.put(pos, 0);
@@ -103,11 +98,22 @@ public class Glossary {
 
 		return term == null ? new String[] { "Invalid selection." } : term.getDefinitions();
 	}
-	
-	public String[] getPOS(String word)
-	{
+
+	public String[] getPOS(String word) {
 		Term term = glossary.get(word);
 
 		return term == null ? new String[] { "Invalid selection." } : term.getPOS();
+	}
+
+	public String[][] getSplit(String word) {
+		Term term = glossary.get(word);
+		if (term == null)
+			return null;
+		return term.getSplit();
+	}
+
+	public boolean updateDef(String word, String pos, String oldDef, String newDef) {
+		Term term = glossary.get(word);
+		return term.updateDef(pos, oldDef, newDef);
 	}
 }

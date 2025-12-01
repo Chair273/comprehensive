@@ -35,7 +35,7 @@ public class Term {
 		return added;
 	}
 
-	public String[] getDefinitions() {
+	public String[] getDefinitions() { // change to getMerged or getStrings or getOutput
 		int i = 1;
 		String[] returnArr = new String[size + 1];
 		TreeSet<String> posDef;
@@ -55,18 +55,46 @@ public class Term {
 		return returnArr;
 	}
 	
-	public String[] getPOS()
-	{
+	public String[][] getSplit() {
+		int i = 0;
+		String[][] returnArr = new String[size][2];
+		TreeSet<String> posDef;
+
+		for (String pos : posOrder) {
+			if (!definitions.containsKey(pos))
+				continue;
+
+			posDef = definitions.get(pos);
+
+			for (String def : posDef) {
+				returnArr[i][0] = pos;
+				returnArr[i++][1] = def;
+			}
+		}
+
+		return returnArr;
+	}
+
+	public String[] getPOS() {
 		int i = 1;
 		String[] returnArr = new String[definitions.size() + 1];
-		
+
 		returnArr[0] = word;
 
 		for (String pos : posOrder)
 			if (definitions.containsKey(pos))
 				returnArr[i++] = "\t" + pos;
-			
+
 		return returnArr;
+	}
+	
+	public boolean updateDef(String pos, String oldDef, String newDef) {
+		TreeSet<String> target = definitions.get(pos);
+		if (!target.remove(oldDef)) {
+			System.out.println("Old definition could not be removed.");
+			return false;
+		}
+		return target.add(newDef);
 	}
 
 }
