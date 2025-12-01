@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Glossary {
 	private TreeMap<String, Term> glossary;
@@ -148,5 +150,41 @@ public class Glossary {
 
 	public boolean containsWord(String word) {
 		return glossary.get(word) != null;
+	}
+	
+	public boolean saveToFile(String filePath)
+	{
+		
+		StringBuilder sb = new StringBuilder();
+		
+		Set<String> keySet = glossary.keySet();
+		
+		for (String word : keySet)
+		{
+			Term term = glossary.get(word);
+			
+			String[][] data = term.getSplit();
+			
+			for (int i = 0; i < data.length; i++)
+			{		
+				sb.append(word);
+				sb.append("::");
+				sb.append(data[i][0]); //POS
+				sb.append("::");
+				sb.append(data[i][1]); //Definition
+				
+				sb.append("\n");
+			}
+		}
+		
+		try {
+			FileWriter writer = new FileWriter(filePath);
+			writer.write(sb.substring(0, sb.length() - 2));
+			writer.close();
+		} catch (IOException e) {
+			return false;
+		}
+		
+		return true;
 	}
 }

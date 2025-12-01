@@ -36,7 +36,7 @@ public class Interface {
 			case 7 -> updateDef();
 			case 8 -> deleteDef();
 			case 9 -> addDef();
-			case 10 -> System.out.println("Uh oh");
+			case 10 -> saveToFile();
 			case 11 -> {
 				return;
 			}
@@ -269,5 +269,19 @@ public class Interface {
 			System.out.println("\n\nSuccessfully added!");
 		else
 			System.out.println("\n\nThis definition was already added.");
+	}
+	
+	private void saveToFile()
+	{
+		System.out.print("Type a filename with path: ");
+		String filePath = getInput();
+		System.out.println();
+		
+		if (glossary.saveToFile(filePath))
+			System.out.println("Successfully saved dictionary to " + filePath);
+		else
+			System.out.println("Failed to save dictionary");
+		
+		
 	}
 }
