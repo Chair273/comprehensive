@@ -23,38 +23,49 @@ public class Interface {
 			System.out.println("Main menu");
 			printArray(commands);
 			System.out.print("\nSelect an option: ");
-
-			int command;
-
-			try {
-				command = scanner.nextInt();
-			} catch (InputMismatchException e) {
-				System.out.println("Invalid selection");
-				continue;
-			}
-
+			int command = getInt();
 			System.out.println();
 
 			switch (command) {
 			case 1 -> getMetadata();
 			case 2 -> getInRange();
 			case 3 -> getWord();
-			case 4 -> System.out.println("Uh oh");
-			case 5 -> System.out.println("Uh oh");
+			case 4 -> getFirstWord();
+			case 5 -> getLastWord();
 			case 6 -> System.out.println("Uh oh");
 			case 7 -> System.out.println("Uh oh");
 			case 8 -> System.out.println("Uh oh");
 			case 9 -> System.out.println("Uh oh");
 			case 10 -> System.out.println("Uh oh");
-			case 11 -> {
-				scanner.close();
-				return;
-			}
+			case 11 -> { return; }
+			
 			default -> System.out.println("Invalid selection");
 			}
 			System.out.println();
 		}
 
+	}
+	
+	/**
+	 * Get user input.
+	 * @return
+	 */
+	private String getInput() {
+		Scanner s = new Scanner(System.in);
+		return s.nextLine();
+	}
+	
+	private int getInt() {
+		Scanner s = new Scanner(System.in);
+		int command = -1;
+		try {
+			command = scanner.nextInt();
+			scanner.nextLine();
+		} catch (InputMismatchException e) {
+			System.out.println("Invalid selection: must be an integer");
+			scanner.nextLine();
+		}
+		return command;
 	}
 
 	private void printArray(String[] arr) {
@@ -74,10 +85,10 @@ public class Interface {
 
 	private void getInRange() {
 		System.out.print("Starting word: ");
-		String startWord = scanner.next();
+		String startWord = getInput();
 
 		System.out.print("Ending word: ");
-		String endWord = scanner.next();
+		String endWord = getInput();
 		System.out.println();
 
 		if (startWord.compareTo(endWord) > 0) {
@@ -90,14 +101,30 @@ public class Interface {
 			System.out.println("\t" + word);
 		}
 	}
+	
+	// Condense the next two methods?
 
 	private void getWord() {
 		System.out.print("Select a word: ");
-		String word = scanner.next();
+		String word = getInput();
 
 		System.out.println();
 
 		String[] definitions = glossary.getWord(word);
+
+		for (String def : definitions)
+			System.out.println(def);
+	}
+	
+	private void getFirstWord() {
+		String[] definitions = glossary.getWord(glossary.getFirst());
+
+		for (String def : definitions)
+			System.out.println(def);
+	}
+	
+	private void getLastWord() {
+		String[] definitions = glossary.getWord(glossary.getLast());
 
 		for (String def : definitions)
 			System.out.println(def);
