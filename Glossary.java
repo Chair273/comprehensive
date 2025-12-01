@@ -103,4 +103,11 @@ public class Glossary {
 
 		return term == null ? new String[] { "Invalid selection." } : term.getDefinitions();
 	}
+	
+	public String[] getPOS(String word)
+	{
+		Term term = glossary.get(word);
+
+		return term == null ? new String[] { "Invalid selection." } : term.getPOS();
+	}
 }

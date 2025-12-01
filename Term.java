@@ -54,5 +54,19 @@ public class Term {
 
 		return returnArr;
 	}
+	
+	public String[] getPOS()
+	{
+		int i = 1;
+		String[] returnArr = new String[definitions.size() + 1];
+		
+		returnArr[0] = word;
+
+		for (String pos : posOrder)
+			if (definitions.containsKey(pos))
+				returnArr[i++] = "\t" + pos;
+			
+		return returnArr;
+	}
 
 }

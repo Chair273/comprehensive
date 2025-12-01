@@ -32,7 +32,7 @@ public class Interface {
 			case 3 -> getWord();
 			case 4 -> getFirstWord();
 			case 5 -> getLastWord();
-			case 6 -> System.out.println("Uh oh");
+			case 6 -> getPOS();
 			case 7 -> System.out.println("Uh oh");
 			case 8 -> System.out.println("Uh oh");
 			case 9 -> System.out.println("Uh oh");
@@ -128,5 +128,68 @@ public class Interface {
 
 		for (String def : definitions)
 			System.out.println(def);
+	}
+	
+	private void getPOS()
+	{
+		System.out.print("Select a word: ");
+		String word = getInput();
+
+		System.out.println();
+
+		String[] definitions = glossary.getPOS(word);
+
+		for (String def : definitions)
+			System.out.println(def);
+	}
+	
+	private void updateDef()
+	{
+		System.out.print("Select a word: ");
+		String word = getInput();
+
+		System.out.println();
+
+		String[][] definitions = glossary.getSplit(word);//handle invalid word later
+		
+		if (definitions == null)
+		{
+			System.out.println("Invalid selection");
+			return;
+		}
+		
+		int num = 1;
+		
+		System.out.println("Definitions for " + word);
+
+		for (String[] pair : definitions)
+			System.out.println((num++) + ". " + pair[0] + "./t" + pair[1]);
+		
+		System.out.print(num + ". Back to main menu/n/nSelect a definition to update: ");
+		
+		int command = getInt();
+	
+		
+		if (command == num)
+			return;
+		
+		if (command < 1 || command > num)
+		{
+			System.out.println("Invalid selection");
+			return;
+		}
+		
+		System.out.print("/nType a new definition: ");
+		
+		String newDef = getInput();
+		
+		System.out.println();
+			
+		
+		if (glossary.updateDefinition(word, definitions[command - 1][0], definitions[command - 1][0], newDef))
+			System.out.println("Definition updated");
+		else
+			System.out.println("Definition not updated");
+		
 	}
 }
