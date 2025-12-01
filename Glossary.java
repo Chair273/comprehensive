@@ -116,4 +116,9 @@ public class Glossary {
 		Term term = glossary.get(word);
 		return term.updateDef(pos, oldDef, newDef);
 	}
+	
+	public boolean deleteDef(String word, String pos, String def) {
+		Term term = glossary.get(word);
+		return term.deleteDef(pos, def);
+	}
 }
