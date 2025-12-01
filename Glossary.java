@@ -117,8 +117,39 @@ public class Glossary {
 		return term.updateDef(pos, oldDef, newDef);
 	}
 	
-	public boolean deleteDef(String word, String pos, String def) {
+	public boolean[] deleteDef(String word, String pos, String def) {
 		Term term = glossary.get(word);
-		return term.deleteDef(pos, def);
+		boolean[] returnArr = new boolean[2]; 
+		
+		returnArr[0] = term.deleteDef(pos, def);
+		
+		if (returnArr[0])
+		{
+			definitions--;
+			int posAmount = posCounts.get(pos) - 1;
+					
+			if (posAmount > 0)
+				posCounts.put(pos, posAmount);
+			else
+				posCounts.remove(pos);
+		}
+		
+		if (term.getSize() == 0)
+		{
+			glossary.remove(word);
+			returnArr[1] = true;
+		}
+		
+		return returnArr;
+	}
+	
+	public boolean addDef(String word, String pos, String def)
+	{
+		Term term = glossary.get(word);
+	}
+	
+	public boolean containsWord(String word)
+	{
+		return glossary.get(word) != null;
 	}
 }

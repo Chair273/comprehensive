@@ -11,7 +11,7 @@ public class Term {
 
 	private HashMap<String, TreeSet<String>> definitions;
 
-	private static final String[] posOrder = new String[] { "adj", "adv", "conj", "interj", "noun", "prep", "pron",
+	public static final String[] posOrder = new String[] { "adj", "adv", "conj", "interj", "noun", "prep", "pron",
 			"verb" };
 
 	public Term(String word, String pos, String def) {
@@ -95,6 +95,28 @@ public class Term {
 			return false;
 		}
 		return target.add(newDef);
+	}
+	
+	public boolean deleteDef(String pos, String def)
+	{
+		
+		TreeSet<String> target = definitions.get(pos);
+
+		
+		if (!target.remove(def))
+			return false;
+		
+		size--;
+		
+		if (target.size() == 0)
+			definitions.remove(pos);
+		
+		return true;
+	}
+	
+	public int getSize()
+	{
+		return size;
 	}
 
 }
