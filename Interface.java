@@ -35,7 +35,7 @@ public class Interface {
 			case 6 -> getPOS();
 			case 7 -> updateDef();
 			case 8 -> deleteDef();
-			case 9 -> System.out.println("Uh oh");
+			case 9 -> addDef();
 			case 10 -> System.out.println("Uh oh");
 			case 11 -> {
 				return;
@@ -189,7 +189,7 @@ public class Interface {
 			System.out.println("Definition not updated");
 
 	}
-	
+
 	private void deleteDef() {
 		System.out.print("Select a word: ");
 		String word = getInput();
@@ -223,51 +223,51 @@ public class Interface {
 		}
 
 		System.out.println();
-		
+
 		boolean[] deleted = glossary.deleteDef(word, definitions[command - 1][0], definitions[command - 1][1]);
 
 		if (deleted[0])
 			System.out.println("Definition removed");
 		else
 			System.out.println("Definition not removed");
-		
+
 		if (deleted[1])
 			System.out.println(word + " removed");
 	}
-	
-	private void addDef()
-	{
+
+	private void addDef() {
 		System.out.print("Type a word: ");
 		String word = getInput();
-		
-		if (!glossary.containsWord(word))
-		{
+
+		if (!glossary.containsWord(word)) {
 			System.out.println("Invalid selection");
 			return;
 		}
-		
-		System.out.print("\nValid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]\nType a valid part of speech: ");
+
+		System.out.print(
+				"\nValid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]\nType a valid part of speech: ");
 		String pos = getInput();
-		
+
 		System.out.println();
-		
+
 		boolean contains = false;
-		
+
 		for (String validPos : Term.posOrder)
-			if (validPos.equals(pos))
-			{
+			if (validPos.equals(pos)) {
 				contains = true;
 				break;
 			}
-		
-		if (!contains)
-		{
+
+		if (!contains) {
 			System.out.println("Invalid selection");
 			return;
 		}
-		
+
 		System.out.print("Type a definition: ");
-		
-		glossary.addDef(word, pos, getInput());
+
+		if (glossary.add(word, pos, getInput()))
+			System.out.println("\n\nSuccessfully added!");
+		else
+			System.out.println("\n\nThis definition was already added.");
 	}
 }

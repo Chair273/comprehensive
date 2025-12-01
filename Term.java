@@ -54,7 +54,7 @@ public class Term {
 
 		return returnArr;
 	}
-	
+
 	public String[][] getSplit() {
 		int i = 0;
 		String[][] returnArr = new String[size][2];
@@ -87,7 +87,7 @@ public class Term {
 
 		return returnArr;
 	}
-	
+
 	public boolean updateDef(String pos, String oldDef, String newDef) {
 		TreeSet<String> target = definitions.get(pos);
 		if (!target.remove(oldDef)) {
@@ -96,26 +96,23 @@ public class Term {
 		}
 		return target.add(newDef);
 	}
-	
-	public boolean deleteDef(String pos, String def)
-	{
-		
+
+	public boolean deleteDef(String pos, String def) {
+
 		TreeSet<String> target = definitions.get(pos);
 
-		
 		if (!target.remove(def))
 			return false;
-		
+
 		size--;
-		
+
 		if (target.size() == 0)
 			definitions.remove(pos);
-		
+
 		return true;
 	}
-	
-	public int getSize()
-	{
+
+	public int getSize() {
 		return size;
 	}
 

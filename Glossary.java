@@ -54,7 +54,7 @@ public class Glossary {
 		return definitions;
 	}
 
-	public void add(String word, String pos, String def) {
+	public boolean add(String word, String pos, String def) {
 		boolean added = true;
 		if (!glossary.containsKey(word))
 			glossary.put(word, new Term(word, pos, def));
@@ -65,6 +65,7 @@ public class Glossary {
 			definitions++;
 			addPos(pos);
 		}
+		return added;
 	}
 
 	private void addPos(String pos) {
@@ -116,40 +117,36 @@ public class Glossary {
 		Term term = glossary.get(word);
 		return term.updateDef(pos, oldDef, newDef);
 	}
-	
+
 	public boolean[] deleteDef(String word, String pos, String def) {
 		Term term = glossary.get(word);
-		boolean[] returnArr = new boolean[2]; 
-		
+		boolean[] returnArr = new boolean[2];
+
 		returnArr[0] = term.deleteDef(pos, def);
-		
-		if (returnArr[0])
-		{
+
+		if (returnArr[0]) {
 			definitions--;
 			int posAmount = posCounts.get(pos) - 1;
-					
+
 			if (posAmount > 0)
 				posCounts.put(pos, posAmount);
 			else
 				posCounts.remove(pos);
 		}
-		
-		if (term.getSize() == 0)
-		{
+
+		if (term.getSize() == 0) {
 			glossary.remove(word);
 			returnArr[1] = true;
 		}
-		
+
 		return returnArr;
 	}
-	
-	public boolean addDef(String word, String pos, String def)
-	{
-		Term term = glossary.get(word);
-	}
-	
-	public boolean containsWord(String word)
-	{
+
+	/*public boolean addDef(String word, String pos, String def) {
+		return glossary.get(word).add(pos, def);
+	}*/
+
+	public boolean containsWord(String word) {
 		return glossary.get(word) != null;
 	}
 }
