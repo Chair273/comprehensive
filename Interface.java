@@ -109,15 +109,36 @@ public class Interface {
 	// Condense the next three methods?
 
 	private void getWord() {
-		System.out.print("Select a word: ");
-		String word = getInput();
+		boolean valid = false;
+		
+		while (!valid)
+		{
+			System.out.print("Select a word: ");
+			String word = getInput();
+	
+			String[] definitions = glossary.getWord(word);
+			
+			if (definitions != null)
+			{
+				valid = true;
+				
+				StringBuilder sb = new StringBuilder();
+				
+				for (String def : definitions)
+				{
+					sb.append("\n");
+					sb.append(def);
+				}
+				
+				System.out.println(sb.toString());
+			}
+			else
+			{
+				System.out.println("\n" + word + " not found\n");
+			}
+	
 
-		System.out.println();
-
-		String[] definitions = glossary.getWord(word);
-
-		for (String def : definitions)
-			System.out.println(def);
+		}
 	}
 
 	private void getFirstWord() {
@@ -137,30 +158,65 @@ public class Interface {
 	}
 
 	private void getPOS() {
-		System.out.print("Select a word: ");
-		String word = getInput();
+		boolean valid = false;
+		
+		while (!valid)
+		{
+			System.out.print("Select a word: ");
+			String word = getInput();
+	
+			String[] definitions = glossary.getPOS(word);
+			
+			if (definitions != null)
+			{
+				valid = true;
+				
+				StringBuilder sb = new StringBuilder();
+				
+				for (String def : definitions)
+				{
+					sb.append("\n");
+					sb.append(def);
+				}
+				
+				System.out.println(sb.toString());
+			}
+			else
+			{
+				System.out.println("\n" + word + " not found\n");
+			}
+	
 
-		System.out.println();
+		}
 
-		String[] definitions = glossary.getPOS(word);
-
-		for (String def : definitions)
-			System.out.println(def);
 	}
 
 	private void updateDef() {
-		System.out.print("Select a word: ");
-		String word = getInput();
 
-		String[][] definitions = glossary.getSplit(word);// handle invalid word later
-
-		if (definitions == null) {
-			System.out.println("Invalid selection");
-			return;
+		boolean validWord = false;
+		
+		String[][] definitions;
+		String word;
+		
+		while (!validWord)
+		{
+			System.out.print("Select a word: ");
+			word = getInput();
+	
+			System.out.println();
+	
+			definitions = glossary.getSplit(word);
+	
+			if (definitions == null) {
+				System.out.println("Invalid selection");
+			}
+			else {
+				validWord = true;
+			}	 
 		}
 
 		int num = 1;
-
+		
 		System.out.println("Definitions for " + word);
 
 		for (String[] pair : definitions)

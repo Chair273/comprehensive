@@ -99,13 +99,13 @@ public class Glossary {
 	public String[] getWord(String word) {
 		Term term = glossary.get(word);
 
-		return term == null ? new String[] { word + " not found" } : term.getDefinitions();
+		return term != null ? term.getDefinitions() : null;
 	}
 
 	public String[] getPOS(String word) {
 		Term term = glossary.get(word);
 
-		return term == null ? new String[] { "Invalid selection." } : term.getPOS();
+		return term != null ? term.getPOS() : null;
 	}
 
 	public String[][] getSplit(String word) {
