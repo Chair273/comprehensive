@@ -53,11 +53,13 @@ public class Interface {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("resource")
 	private String getInput() {
 		Scanner s = new Scanner(System.in);
 		return s.nextLine();
 	}
 
+	@SuppressWarnings("unused")
 	private int getInt() {
 		Scanner s = new Scanner(System.in);
 		int command = -1;
@@ -65,7 +67,6 @@ public class Interface {
 			command = scanner.nextInt();
 			scanner.nextLine();
 		} catch (InputMismatchException e) {
-			System.out.println("Invalid selection: must be an integer");
 			scanner.nextLine();
 		}
 		return command;
@@ -110,33 +111,27 @@ public class Interface {
 
 	private void getWord() {
 		boolean valid = false;
-		
-		while (!valid)
-		{
+
+		while (!valid) {
 			System.out.print("Select a word: ");
 			String word = getInput();
-	
+
 			String[] definitions = glossary.getWord(word);
-			
-			if (definitions != null)
-			{
+
+			if (definitions != null) {
 				valid = true;
-				
+
 				StringBuilder sb = new StringBuilder();
-				
-				for (String def : definitions)
-				{
+
+				for (String def : definitions) {
 					sb.append("\n");
 					sb.append(def);
 				}
-				
+
 				System.out.println(sb.toString());
-			}
-			else
-			{
+			} else {
 				System.out.println("\n" + word + " not found\n");
 			}
-	
 
 		}
 	}
@@ -159,83 +154,74 @@ public class Interface {
 
 	private void getPOS() {
 		boolean valid = false;
-		
-		while (!valid)
-		{
+
+		while (!valid) {
 			System.out.print("Select a word: ");
 			String word = getInput();
-	
+
 			String[] definitions = glossary.getPOS(word);
-			
-			if (definitions != null)
-			{
+
+			if (definitions != null) {
 				valid = true;
-				
+
 				StringBuilder sb = new StringBuilder();
-				
-				for (String def : definitions)
-				{
+
+				for (String def : definitions) {
 					sb.append("\n");
 					sb.append(def);
 				}
-				
+
 				System.out.println(sb.toString());
-			}
-			else
-			{
+			} else {
 				System.out.println("\n" + word + " not found\n");
 			}
-	
 
 		}
 
 	}
 
 	private void updateDef() {
-
 		boolean validWord = false;
-		
-		String[][] definitions;
-		String word;
-		
-		while (!validWord)
-		{
+		String[][] definitions = new String[0][0];
+		String word = "";
+
+		while (!validWord) {
 			System.out.print("Select a word: ");
 			word = getInput();
-	
-			System.out.println();
-	
+
 			definitions = glossary.getSplit(word);
-	
+
 			if (definitions == null) {
-				System.out.println("Invalid selection");
-			}
-			else {
+				System.out.println("Invalid selection\n");
+			} else {
 				validWord = true;
-			}	 
+			}
 		}
 
 		int num = 1;
-		
-		System.out.println("Definitions for " + word);
+
+		System.out.println("\nDefinitions for " + word);
 
 		for (String[] pair : definitions)
 			System.out.println((num++) + ". " + pair[0] + ".\t" + pair[1]);
+		System.out.print(num + ". Back to main menu\n");
 
-		System.out.print(num + ". Back to main menu\n\nSelect a definition to update: ");
+		int command = 0;
+		boolean validCommand = false;
+		while (!validCommand) {
+			System.out.print("\nSelect a definition to update: ");
+			command = getInt();
 
-		int command = getInt();
+			if (command == num)
+				return;
 
-		if (command == num)
-			return;
-
-		if (command < 1 || command > num) {
-			System.out.println("Invalid selection");
-			return;
+			if (command < 1 || command > num)
+				System.out.println("Invalid selection");
+			else
+				validCommand = true;
 		}
 
 		System.out.print("\nType a new definition: ");
-
 		String newDef = getInput();
 
 		System.out.println();
@@ -248,16 +234,21 @@ public class Interface {
 	}
 
 	private void deleteDef() {
-		System.out.print("Select a word: ");
-		String word = getInput();
+		boolean validWord = false;
+		String[][] definitions = new String[0][0];
+		String word = "";
 
-		System.out.println();
+		while (!validWord) {
+			System.out.print("Select a word: ");
+			word = getInput();
 
-		String[][] definitions = glossary.getSplit(word);
+			definitions = glossary.getSplit(word);
 
-		if (definitions == null) {
-			System.out.println("Invalid selection");
-			return;
+			if (definitions == null) {
+				System.out.println("Invalid selection\n");
+			} else {
+				validWord = true;
+			}
 		}
 
 		int num = 1;
@@ -267,16 +258,21 @@ public class Interface {
 		for (String[] pair : definitions)
 			System.out.println((num++) + ". " + pair[0] + ". \t" + pair[1]);
 
-		System.out.print(num + ". Back to main menu\n\nSelect a definition to remove: ");
+		System.out.print(num + ". Back to main menu\n");
 
-		int command = getInt();
+		int command = 0;
+		boolean validCommand = false;
+		while (!validCommand) { // do-while loop so above variables aren't initialized
+			System.out.print("\nSelect a definition to remove: ");
+			command = getInt();
 
-		if (command == num)
-			return;
+			if (command == num)
+				return;
 
-		if (command < 1 || command > num) {
-			System.out.println("\nInvalid selection");
-			return;
+			if (command < 1 || command > num)
+				System.out.println("Invalid selection");
+			else
+				validCommand = true;
 		}
 
 		System.out.println();
