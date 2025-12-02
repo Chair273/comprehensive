@@ -41,7 +41,7 @@ public class Interface {
 				return;
 			}
 
-			default -> System.out.println("Invalid selection");
+			default -> System.out.println("\nInvalid selection");
 			}
 			System.out.println();
 		}
@@ -78,14 +78,25 @@ public class Interface {
 	}
 
 	private void getMetadata() {
-		System.out.println("\nwords: " + glossary.size());
-		System.out.println("definitions: " + glossary.definitions());
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("\nwords: ");
+		sb.append(glossary.size());
+		sb.append("\ndefinitions: ");
+		sb.append(glossary.definitions());
+		
 		Double defPerWord = (double) glossary.definitions() / glossary.size();
-
-		System.out.println("definitions per word: " + String.format("%.3f", defPerWord));
-		System.out.println("parts of speech: " + glossary.getPosCount());
-		System.out.println("first word: " + glossary.getFirst());
-		System.out.println("last word: " + glossary.getLast());
+		
+		sb.append("\ndefinitions per word: ");
+		sb.append(String.format("%.3f", defPerWord));
+		sb.append("\nparts of speech: ");
+		sb.append(glossary.getPosCount());
+		sb.append("\nfirst word: ");
+		sb.append(glossary.getFirst());
+		sb.append("\nlast word: ");
+		sb.append(glossary.getLast());
+		
+		System.out.println(sb.toString());
 	}
 
 	private void getInRange() {
@@ -110,30 +121,26 @@ public class Interface {
 	// Condense the next three methods?
 
 	private void getWord() {
-		boolean valid = false;
 
-		while (!valid) {
-			System.out.print("Select a word: ");
-			String word = getInput();
+		System.out.print("Select a word: ");
+		String word = getInput();
 
-			String[] definitions = glossary.getWord(word);
+		String[] definitions = glossary.getWord(word);
 
-			if (definitions != null) {
-				valid = true;
+		if (definitions != null) {
 
-				StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 
-				for (String def : definitions) {
-					sb.append("\n");
-					sb.append(def);
-				}
-
-				System.out.println(sb.toString());
-			} else {
-				System.out.println("\n" + word + " not found\n");
+			for (String def : definitions) {
+				sb.append("\n");
+				sb.append(def);
 			}
 
+			System.out.println(sb.toString());
+		} else {
+			System.out.println("\n" + word + " not found");
 		}
+
 	}
 
 	private void getFirstWord() {
@@ -203,7 +210,7 @@ public class Interface {
 		System.out.println("\nDefinitions for " + word);
 
 		for (String[] pair : definitions)
-			System.out.println((num++) + ". " + pair[0] + ".\t" + pair[1]);
+			System.out.println((num++) + ". " + pair[0] + ". \t" + pair[1]);
 		System.out.print(num + ". Back to main menu\n");
 
 		int command = 0;
@@ -216,12 +223,12 @@ public class Interface {
 				return;
 
 			if (command < 1 || command > num)
-				System.out.println("Invalid selection");
+				System.out.println("Invalid selection\n");
 			else
 				validCommand = true;
 		}
 
-		System.out.print("\nType a new definition: ");
+		System.out.print("Type a new definition: ");
 		String newDef = getInput();
 
 		System.out.println();
@@ -253,7 +260,7 @@ public class Interface {
 
 		int num = 1;
 
-		System.out.println("Definitions for " + word);
+		System.out.println("\nDefinitions for " + word);
 
 		for (String[] pair : definitions)
 			System.out.println((num++) + ". " + pair[0] + ". \t" + pair[1]);
@@ -297,22 +304,26 @@ public class Interface {
 		 * return; }
 		 */
 
-		System.out.print(
-				"Valid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]\nType a valid part of speech: ");
-		String pos = getInput();
-
+		System.out.println(
+				"Valid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]");
+		
 		boolean isValidPOS = false;
+		String pos = "";
+		
+		while (!isValidPOS)
+		{
+			System.out.print("Type a valid part of speech: ");
+			
+			pos = getInput();
 
-		for (String validPOS : Term.posOrder)
-			if (validPOS.equals(pos)) {
-				isValidPOS = true;
-				break;
-			}
 
-		if (!isValidPOS) {
-			System.out.println("Invalid selection");
-			return;
+			for (String validPOS : Term.posOrder)
+				if (validPOS.equals(pos)) {
+					isValidPOS = true;
+					break;
+				}
 		}
+
 
 		System.out.print("Type a definition: ");
 
@@ -330,7 +341,7 @@ public class Interface {
 		if (glossary.saveToFile(filePath))
 			System.out.println("Successfully saved dictionary to " + filePath);
 		else
-			System.out.println("Failed to save dictionary");
+			System.out.println("File not found");
 
 	}
 }
