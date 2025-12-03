@@ -174,7 +174,6 @@ public class Glossary {
 
 		try {
 			FileWriter writer = new FileWriter(filePath);
-			writer.write(sb.toString());
 			writer.write(sb.substring(0, Math.max(0, sb.length() - 1)));
 			writer.close();
 		} catch (IOException e) {

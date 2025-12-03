@@ -206,16 +206,16 @@ public class Interface {
 			return;
 		}
 			
-		boolean valid = false;
+		//boolean valid = false;
 
-		while (!valid) {
+		//while (!valid) {
 			System.out.print("Select a word: ");
 			String word = getInput();
 
 			String[] definitions = glossary.getPOS(word);
 
 			if (definitions != null) {
-				valid = true;
+				//valid = true;
 
 				StringBuilder sb = new StringBuilder();
 
@@ -229,7 +229,7 @@ public class Interface {
 				System.out.println("\n" + word + " not found\n");
 			}
 
-		}
+		//}
 
 	}
 
@@ -238,11 +238,11 @@ public class Interface {
 			System.out.println("\nThis dictionary is empty");
 			return;
 		}
-		boolean validWord = false;
+		//boolean validWord = false;
 		String[][] definitions = new String[0][0];
 		String word = "";
 
-		while (!validWord) {
+		//while (!validWord) {
 			System.out.print("Select a word: ");
 			word = getInput();
 
@@ -250,10 +250,11 @@ public class Interface {
 
 			if (definitions == null) {
 				System.out.println("Invalid selection\n");
-			} else {
+				return;
+			}/* else {
 				validWord = true;
 			}
-		}
+		}*/
 
 		int num = 1;
 
@@ -295,11 +296,11 @@ public class Interface {
 			System.out.println("\nThis dictionary is empty");
 			return;
 		}
-		boolean validWord = false;
+		//boolean validWord = false;
 		String[][] definitions = new String[0][0];
 		String word = "";
 
-		while (!validWord) {
+		//while (!validWord) {
 			System.out.print("Select a word: ");
 			word = getInput();
 
@@ -307,10 +308,11 @@ public class Interface {
 
 			if (definitions == null) {
 				System.out.println("Invalid selection\n");
-			} else {
+				return;
+			}/* else {
 				validWord = true;
 			}
-		}
+		}*/
 
 		int num = 1;
 
