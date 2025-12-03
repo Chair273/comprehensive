@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * A glossary that contains words and their definitions. Reads from a file upon instantiation, 
- * and can perform CRUD operations on it's entries.
+ * and can perform CRUD operations on its entries.
  * 
  * @author Devin Santos and Tyler Christiansen
  * @version 2025-12-3
@@ -20,10 +20,6 @@ import java.io.IOException;
 public class Glossary {
 	private TreeMap<String, Term> glossary;
 	private HashMap<String, Integer> posCounts;
-
-	private String first;
-	private String last;
-
 	private int definitions;
 
 	/**
@@ -95,17 +91,9 @@ public class Glossary {
 	 */
 	public boolean add(String word, String pos, String def) {
 		boolean added = true;
-		if (!glossary.containsKey(word)) {
+		if (!glossary.containsKey(word))
 			glossary.put(word, new Term(word, pos, def));
-
-			if (size() == 0) {
-				first = word;
-				last = word;
-			} else {
-				first = first.compareTo(word) > 0 ? word : first;
-				last = last.compareTo(word) < 0 ? word : last;
-			}
-		} else
+		else
 			added = glossary.get(word).add(pos, def);
 
 		if (added) {
