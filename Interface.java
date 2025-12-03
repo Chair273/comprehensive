@@ -156,7 +156,7 @@ public class Interface {
 	/**
 	 * Prints each given definition on a separate line.
 	 * 
-	 * @param definitions - a string array of defiinitions
+	 * @param definitions - a string array of definitions
 	 */
 	private void displayDefs(String[] definitions) {
 		StringBuilder sb = new StringBuilder();
@@ -201,11 +201,11 @@ public class Interface {
 	 * Gets and displays the definitions for the given word. If the word is not found
 	 * in the glossary, print "[word] not found."
 	 */
-	private void getWord() {
+	private void getWord() {		
 		System.out.print("Select a word: ");
 		String word = getInput();
 
-		String[] definitions = glossary.getMerged(word); // TODO: change this?
+		String[] definitions = glossary.getMerged(word);
 
 		if (definitions == null) {
 			System.out.println("\n" + word + " not found");
@@ -218,14 +218,17 @@ public class Interface {
 	/**
 	 * Prints the first word in the glossary if it isn't empty.
 	 */
-	private void getFirstWord() {
-		System.out.println();
-		String[] definitions = glossary.getMerged(glossary.getFirst());
-
-		if (definitions == null) {
+	private void getFirstWord() {	
+		if (glossary.size() == 0) {
 			System.out.println("This dictionary is empty");
 			return;
 		}
+		else
+		{
+			System.out.println();
+		}
+		
+		String[] definitions = glossary.getMerged(glossary.getFirst());
 		
 		displayDefs(definitions);
 	}
@@ -234,13 +237,16 @@ public class Interface {
 	 * Prints the last word in the glossary if it isn't empty.
 	 */
 	private void getLastWord() {
-		System.out.println();
-		String[] definitions = glossary.getMerged(glossary.getLast());
-		
-		if (definitions == null) {
+		if (glossary.size() == 0) {
 			System.out.println("This dictionary is empty");
 			return;
 		}
+		else
+		{
+			System.out.println();
+		}
+		
+		String[] definitions = glossary.getMerged(glossary.getLast());
 
 		displayDefs(definitions);
 	}
@@ -250,11 +256,6 @@ public class Interface {
 	 * word isn't in the glossary, prints "{ word } not found."
 	 */
 	private void getPOS() {
-		if (glossary.size() == 0) {
-			System.out.println("This dictionary is empty");
-			return;
-		}
-			
 		System.out.print("Select a word: ");
 		String word = getInput();
 
@@ -271,10 +272,10 @@ public class Interface {
 	 * Updates a definition of the term input given by the user.
 	 */
 	private void updateDef() {
-		if (glossary.size() == 0) {
+		/*if (glossary.size() == 0) {
 			System.out.println("\nThis dictionary is empty");
 			return;
-		}
+		}*/
 		String[][] definitions = new String[0][0];
 		String word = "";
 
@@ -288,11 +289,12 @@ public class Interface {
 			return;
 		}
 
-		int num = displayNumberedDefs(word, definitions);
+
 
 		int command = 0;
 		boolean validCommand = false;
 		while (!validCommand) {
+			int num = displayNumberedDefs(word, definitions);
 			System.out.print("\nSelect a definition to update: ");
 			command = getInt();
 
@@ -320,10 +322,6 @@ public class Interface {
 	 * and removes the definition corresponding with the number given by the user or returns to the main menu.
 	 */
 	private void deleteDef() {
-		if (glossary.size() == 0) {
-			System.out.println("\nThis dictionary is empty");
-			return;
-		}
 		
 		String[][] definitions = new String[0][0];
 		String word = "";
