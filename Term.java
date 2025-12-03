@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
 
+/**
+ * 
+ * @author Devin Santos and Tyler Christiansen
+ * @version 2025-12-3
+ */
 public class Term {
 	private int size;
 
@@ -94,6 +99,7 @@ public class Term {
 			System.out.println("Old definition could not be removed.");
 			return false;
 		}
+
 		return target.add(newDef);
 	}
 

@@ -156,7 +156,7 @@ public class Interface {
 		System.out.print("Select a word: ");
 		String word = getInput();
 
-		String[] definitions = glossary.getWord(word);
+		String[] definitions = glossary.getMerged(word);
 
 		if (definitions != null) {
 
@@ -176,7 +176,7 @@ public class Interface {
 
 	private void getFirstWord() {
 		System.out.println();
-		String[] definitions = glossary.getWord(glossary.getFirst());
+		String[] definitions = glossary.getMerged(glossary.getFirst());
 
 		if (definitions == null) {
 			System.out.println("This dictionary is empty");
@@ -189,7 +189,7 @@ public class Interface {
 
 	private void getLastWord() {
 		System.out.println();
-		String[] definitions = glossary.getWord(glossary.getLast());
+		String[] definitions = glossary.getMerged(glossary.getLast());
 		
 		if (definitions == null) {
 			System.out.println("\nThis dictionary is empty");
@@ -354,11 +354,6 @@ public class Interface {
 	private void addDef() {
 		System.out.print("Type a word: ");
 		String word = getInput();
-
-		/*
-		 * if (!glossary.containsWord(word)) { System.out.println("Invalid selection");
-		 * return; }
-		 */
 
 		System.out.println("Valid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]");
 
