@@ -5,6 +5,7 @@ import java.util.NavigableMap;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -42,21 +43,22 @@ public class Glossary {
 	 */
 	private void readFile(String filePath) {
 		Scanner sc;
+		/*We found out patterns from these 2 sources while looking for better ways to read from a file:
+			https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
+			https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html#delimiter--
+		*/
+		Pattern pattern = Pattern.compile("::|\n");
 
 		try {
 			sc = new Scanner(new File(filePath));
+			sc.useDelimiter(pattern);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return;
 		}
 
-		String[] data;
-
-		while (sc.hasNextLine()) {
-			data = sc.nextLine().split("::");
-
-			add(data[0], data[1], data[2]);
-		}
+		while (sc.hasNext())
+			add(sc.next(), sc.next(), sc.next());
 
 		sc.close();
 	}
@@ -168,7 +170,7 @@ public class Glossary {
 	public String[] getMerged(String word) {
 		Term term = glossary.get(word);
 
-		return term != null ? term.getDefinitions() : null;
+		return term != null ? term.getMerged() : null;
 	}
 
 	/**
@@ -186,7 +188,7 @@ public class Glossary {
 
 	/**
 	 * Gets the definitions of a word, or null if it is not present in the glossary.
-	 * Each represents a full definition, while each row contains the part of speech
+	 * Each row represents a full definition, while each column contains the part of speech
 	 * and definition, in that order.
 	 * 
 	 * @param word - the word to search for
