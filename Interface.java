@@ -1,24 +1,35 @@
 package comprehensive;
 
-import java.util.InputMismatchException;
+// import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * Console interface for glossary. Prints glossary data and provides interface for
+ * updating and saving glossary.
+ * 
+ * @author Devin Santos and Tyler Christiansen
+ * @version 2025-12-3
+ */
 public class Interface {
 	Glossary glossary;
-	Scanner scanner;
+	// Scanner scanner;
 
 	private final String[] commands = new String[] { "Get metadata", "Get words in range", "Get word", "Get first word",
 			"Get last word", "Get parts of speech", "Update definition", "Delete definition", "Add new definition",
 			"Save dictionary", "Quit" };
 
+	/**
+	 * Constructor for Interface. Initializes Glossary and Scanner.
+	 * @param filePath - file
+	 */
 	public Interface(String filePath) {
 		glossary = new Glossary(filePath);
-		scanner = new Scanner(System.in);
-		update();
+		// scanner = new Scanner(System.in);
+		// update();
 	}
 
-	private void update() {
+	public void update() {
 		while (true) {
 			System.out.println("Main menu");
 			printArray(commands);
@@ -51,7 +62,7 @@ public class Interface {
 	/**
 	 * Get user input.
 	 * 
-	 * @return
+	 * @return string of user input
 	 */
 	@SuppressWarnings("resource")
 	private String getInput() {
@@ -59,15 +70,20 @@ public class Interface {
 		return s.nextLine();
 	}
 
-	@SuppressWarnings("unused")
+	/**
+	 * Get user integer input.
+	 * 
+	 * @return integer input from user or -1 if input is invalid
+	 */
+	@SuppressWarnings("resource")
 	private int getInt() {
 		Scanner s = new Scanner(System.in);
-		int command = -1;
+		int command;
 		try {
-			command = scanner.nextInt();
-			scanner.nextLine();
-		} catch (InputMismatchException e) {
-			scanner.nextLine();
+			// scanner.nextInt(); 
+			command = Integer.parseInt(s.nextLine());
+		} catch (NumberFormatException e) { // InputMismatchException
+			command = -1;
 		}
 		return command;
 	}
@@ -77,16 +93,24 @@ public class Interface {
 			System.out.println((i + 1) + ".\t" + arr[i]);
 	}
 
+	/**
+	 * Display the glossary's metadata, including word count, definition count,
+	 * definitions per word
+	 */
 	private void getMetadata() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append("\nwords: ");
 		sb.append(glossary.size());
 		sb.append("\ndefinitions: ");
 		sb.append(glossary.definitions());
-		
-		Double defPerWord = (double) glossary.definitions() / glossary.size();
-		
+
+		Double defPerWord;
+		if (glossary.size() == 0)
+			defPerWord = 0.0;
+		else
+			defPerWord = (double) glossary.definitions() / glossary.size();
+
 		sb.append("\ndefinitions per word: ");
 		sb.append(String.format("%.3f", defPerWord));
 		sb.append("\nparts of speech: ");
@@ -95,10 +119,13 @@ public class Interface {
 		sb.append(glossary.getFirst());
 		sb.append("\nlast word: ");
 		sb.append(glossary.getLast());
-		
+
 		System.out.println(sb.toString());
 	}
 
+	/**
+	 * 
+	 */
 	private void getInRange() {
 		System.out.print("Starting word: ");
 		String startWord = getInput();
@@ -107,7 +134,8 @@ public class Interface {
 		String endWord = getInput();
 		System.out.println();
 
-		if (startWord.compareTo(endWord) > 0) {
+		if (startWord.compareTo(endWord) > 0) { // TODO: options - say "Invalid selection" and return, say "Invalid
+												// selection" and prompt user for new word(s)
 			System.out.println("Invalid selection");
 			return;
 		}
@@ -120,8 +148,11 @@ public class Interface {
 
 	// Condense the next three methods?
 
+	/**
+	 * Get and display the definitions for the given word. If the word is not found
+	 * in the glossary, print "[word] not found."
+	 */
 	private void getWord() {
-
 		System.out.print("Select a word: ");
 		String word = getInput();
 
@@ -147,6 +178,11 @@ public class Interface {
 		System.out.println();
 		String[] definitions = glossary.getWord(glossary.getFirst());
 
+		if (definitions == null) {
+			System.out.println("This dictionary is empty");
+			return;
+		}
+		
 		for (String def : definitions)
 			System.out.println(def);
 	}
@@ -154,12 +190,22 @@ public class Interface {
 	private void getLastWord() {
 		System.out.println();
 		String[] definitions = glossary.getWord(glossary.getLast());
+		
+		if (definitions == null) {
+			System.out.println("\nThis dictionary is empty");
+			return;
+		}
 
 		for (String def : definitions)
 			System.out.println(def);
 	}
 
 	private void getPOS() {
+		if (glossary.size() == 0) {
+			System.out.println("This dictionary is empty");
+			return;
+		}
+			
 		boolean valid = false;
 
 		while (!valid) {
@@ -188,6 +234,10 @@ public class Interface {
 	}
 
 	private void updateDef() {
+		if (glossary.size() == 0) {
+			System.out.println("\nThis dictionary is empty");
+			return;
+		}
 		boolean validWord = false;
 		String[][] definitions = new String[0][0];
 		String word = "";
@@ -241,6 +291,10 @@ public class Interface {
 	}
 
 	private void deleteDef() {
+		if (glossary.size() == 0) {
+			System.out.println("\nThis dictionary is empty");
+			return;
+		}
 		boolean validWord = false;
 		String[][] definitions = new String[0][0];
 		String word = "";
@@ -304,18 +358,14 @@ public class Interface {
 		 * return; }
 		 */
 
-		System.out.println(
-				"Valid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]");
-		
+		System.out.println("Valid parts of speech: [noun, verb, adj, adv, pron, prep, conj, interj]");
+
 		boolean isValidPOS = false;
 		String pos = "";
-		
-		while (!isValidPOS)
-		{
-			System.out.print("Type a valid part of speech: ");
-			
-			pos = getInput();
 
+		while (!isValidPOS) {
+			System.out.print("Type a valid part of speech: ");
+			pos = getInput();
 
 			for (String validPOS : Term.posOrder)
 				if (validPOS.equals(pos)) {
@@ -323,7 +373,6 @@ public class Interface {
 					break;
 				}
 		}
-
 
 		System.out.print("Type a definition: ");
 

@@ -1,9 +1,6 @@
 package comprehensive;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.NavigableMap;
 import java.util.Scanner;
 import java.util.Set;
@@ -83,11 +80,11 @@ public class Glossary {
 	}
 
 	public String getFirst() {
-		return glossary.firstKey();
+		return glossary.size() == 0 ? "" : glossary.firstKey();
 	}
 
 	public String getLast() {
-		return glossary.lastKey();
+		return glossary.size() == 0 ? "" : glossary.lastKey();
 	}
 
 	public Set<String> getInRange(String start, String end) {
@@ -144,47 +141,46 @@ public class Glossary {
 		return returnArr;
 	}
 
-	/*public boolean addDef(String word, String pos, String def) {
-		return glossary.get(word).add(pos, def);
-	}*/
+	/*
+	 * public boolean addDef(String word, String pos, String def) { return
+	 * glossary.get(word).add(pos, def); }
+	 */
 
 	public boolean containsWord(String word) {
 		return glossary.get(word) != null;
 	}
-	
-	public boolean saveToFile(String filePath)
-	{
-		
+
+	public boolean saveToFile(String filePath) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		Set<String> keySet = glossary.keySet();
-		
-		for (String word : keySet)
-		{
+
+		for (String word : keySet) {
 			Term term = glossary.get(word);
-			
+
 			String[][] data = term.getSplit();
-			
-			for (int i = 0; i < data.length; i++)
-			{		
+
+			for (int i = 0; i < data.length; i++) {
 				sb.append(word);
 				sb.append("::");
-				sb.append(data[i][0]); //POS
+				sb.append(data[i][0]); // POS
 				sb.append("::");
-				sb.append(data[i][1]); //Definition
+				sb.append(data[i][1]); // Definition
 				
-				sb.append("\n");
+				// if (i != data.length - 1)
+					sb.append("\n");
 			}
 		}
-		
+
 		try {
 			FileWriter writer = new FileWriter(filePath);
-			writer.write(sb.substring(0, sb.length() - 1));
+			writer.write(sb.toString());
+			writer.write(sb.substring(0, Math.max(0, sb.length() - 1)));
 			writer.close();
 		} catch (IOException e) {
 			return false;
 		}
-		
+
 		return true;
 	}
 }
