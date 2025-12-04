@@ -12,5 +12,3 @@ public class Main {
 		app.update();
 	}
 }
-// Errors when empty: 1, 4, and 5
-// 6 maybe shouldn't loop (or should it?)

@@ -4,8 +4,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * Console interface for glossary. Prints glossary data and provides interface for
- * updating and saving glossary.
+ * Console interface for glossary. Prints glossary data and provides interface
+ * for updating and saving glossary.
  * 
  * @author Devin Santos and Tyler Christiansen
  * @version 2025-12-3
@@ -18,7 +18,7 @@ public class Interface {
 			"Save dictionary", "Quit" };
 
 	/**
-	 * Constructor for Interface. Initializes Glossary.
+	 * Constructor for Interface. Initializes instance of Glossary.
 	 * 
 	 * @param filePath - file
 	 */
@@ -27,7 +27,8 @@ public class Interface {
 	}
 
 	/**
-	 * Displays the main menu and calls the appropriate method based on the user input.
+	 * Displays the main menu and calls the appropriate method based on the user
+	 * input.
 	 */
 	public void update() {
 		while (true) {
@@ -68,7 +69,7 @@ public class Interface {
 	}
 
 	/**
-	 * Gets user integer input.
+	 * Gets integer user input.
 	 * 
 	 * @return integer input from user or -1 if input is invalid
 	 */
@@ -83,7 +84,7 @@ public class Interface {
 		}
 		return command;
 	}
-	
+
 	/**
 	 * Enumerates and prints the menu options to the console.
 	 * 
@@ -131,8 +132,8 @@ public class Interface {
 	}
 
 	/**
-	 * Prompts the user for a starting and ending word, then prints the words between those two that are in the
-	 * glossary. 
+	 * Prompts the user for a starting and ending word, then prints the words
+	 * between those two (in lexicographic order) that are in the glossary.
 	 */
 	private void getInRange() {
 		System.out.print("Starting word: ");
@@ -142,8 +143,7 @@ public class Interface {
 		String endWord = getInput();
 		System.out.println();
 
-		if (startWord.compareTo(endWord) > 0) { // TODO: options - say "Invalid selection" and return, say "Invalid
-												// selection" and prompt user for new word(s)
+		if (startWord.compareTo(endWord) > 0) {
 			System.out.println("Invalid selection");
 			return;
 		}
@@ -152,7 +152,7 @@ public class Interface {
 		for (String word : words)
 			System.out.println("\t" + word);
 	}
-	
+
 	/**
 	 * Prints each given definition on a separate line.
 	 * 
@@ -165,13 +165,13 @@ public class Interface {
 			sb.append("\n");
 			sb.append(def);
 		}
-		
+
 		System.out.println(sb.toString());
 	}
-	
+
 	/**
-	 * Prints each given definition, numbered, on a separate line. The last option is to return to
-	 * the main menu.
+	 * Prints each given definition, numbered, on a separate line. The last option
+	 * is to return to the main menu.
 	 * 
 	 * @param definitions - a string array of defiinitions
 	 */
@@ -198,10 +198,10 @@ public class Interface {
 	}
 
 	/**
-	 * Gets and displays the definitions for the given word. If the word is not found
-	 * in the glossary, print "[word] not found."
+	 * Gets and displays the definitions for the given word. If the word is not
+	 * found in the glossary, prints "{word} not found."
 	 */
-	private void getWord() {		
+	private void getWord() {
 		System.out.print("Select a word: ");
 		String word = getInput();
 
@@ -211,25 +211,23 @@ public class Interface {
 			System.out.println("\n" + word + " not found");
 			return;
 		}
-		
+
 		displayDefs(definitions);
 	}
 
 	/**
 	 * Prints the first word in the glossary if it isn't empty.
 	 */
-	private void getFirstWord() {	
+	private void getFirstWord() {
 		if (glossary.size() == 0) {
 			System.out.println("This dictionary is empty");
 			return;
-		}
-		else
-		{
+		} else {
 			System.out.println();
 		}
-		
+
 		String[] definitions = glossary.getMerged(glossary.getFirst());
-		
+
 		displayDefs(definitions);
 	}
 
@@ -240,20 +238,18 @@ public class Interface {
 		if (glossary.size() == 0) {
 			System.out.println("This dictionary is empty");
 			return;
-		}
-		else
-		{
+		} else {
 			System.out.println();
 		}
-		
+
 		String[] definitions = glossary.getMerged(glossary.getLast());
 
 		displayDefs(definitions);
 	}
 
 	/**
-	 * Prompts the user for a word and displays the parts of speech associated with that word. If the
-	 * word isn't in the glossary, prints "{ word } not found."
+	 * Prompts the user for a word and displays the parts of speech associated with
+	 * that word. If the word isn't in the glossary, prints "{word} not found."
 	 */
 	private void getPOS() {
 		System.out.print("Select a word: ");
@@ -269,13 +265,12 @@ public class Interface {
 	}
 
 	/**
-	 * Updates a definition of the term input given by the user.
+	 * Prompts the user to select a word and displays its definitions, numbered, or
+	 * "Invalid selection" if the word is not in the glossary. Prompts the user to
+	 * select a definition to update and to type the new definition. Attempts to
+	 * update the definition and outputs whether the attempt was successful.
 	 */
 	private void updateDef() {
-		/*if (glossary.size() == 0) {
-			System.out.println("\nThis dictionary is empty");
-			return;
-		}*/
 		String[][] definitions = new String[0][0];
 		String word = "";
 
@@ -288,8 +283,6 @@ public class Interface {
 			System.out.println("Invalid selection\n");
 			return;
 		}
-
-
 
 		int command = 0;
 		boolean validCommand = false;
@@ -318,11 +311,12 @@ public class Interface {
 	}
 
 	/**
-	 * Prompts the user to select a word. If the word is in the glossary, displays numbered definitions
-	 * and removes the definition corresponding with the number given by the user or returns to the main menu.
+	 * Prompts the user to select a word and displays its definitions, numbered, or
+	 * "Invalid selection" if the word is not in the glossary. Prompts the user to
+	 * select a definition to delete. Attempts to remove the definition and outputs
+	 * whether the definition was removed and if the term itself was removed.
 	 */
 	private void deleteDef() {
-		
 		String[][] definitions = new String[0][0];
 		String word = "";
 
@@ -365,8 +359,9 @@ public class Interface {
 	}
 
 	/**
-	 * Prompts the user for a word, part of speech, and definition. If the part of speech is valid and if the
-	 * entry is not already in the glossary, adds data as new entry.
+	 * Prompts the user for a word, part of speech, and definition. If the part of
+	 * speech is valid and if the entry is not already in the glossary, this method
+	 * adds the data as a new entry.
 	 */
 	private void addDef() {
 		System.out.print("Type a word: ");
@@ -397,7 +392,8 @@ public class Interface {
 	}
 
 	/**
-	 * Prompts the user for a file path. If directory is valid, saves the glossary to that file.
+	 * Prompts the user for a file path. If the given directory is valid, saves the
+	 * glossary to that file.
 	 */
 	private void saveToFile() {
 		System.out.print("Type a filename with path: ");
@@ -408,6 +404,5 @@ public class Interface {
 			System.out.println("Successfully saved dictionary to " + filePath);
 		else
 			System.out.println("File not found");
-
 	}
 }

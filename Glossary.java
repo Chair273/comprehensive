@@ -12,8 +12,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * A glossary that contains words and their definitions. Reads from a file upon instantiation, 
- * and can perform CRUD operations on its entries.
+ * A glossary that contains words and Term objects, which store the terms'
+ * definitions. Reads from a file upon instantiation and provides endpoints to
+ * retrieve data about the glossary and terms, add/update/delete definitions,
+ * and save to an external file.
  * 
  * @author Devin Santos and Tyler Christiansen
  * @version 2025-12-3
@@ -24,7 +26,8 @@ public class Glossary {
 	private int definitions;
 
 	/**
-	 * Glossary constructor, reads data from a file.
+	 * Creates a new Glossary by reading data from a file into the appropriate data
+	 * structues.
 	 * 
 	 * @param filePath - the file path to read from
 	 */
@@ -43,14 +46,14 @@ public class Glossary {
 	 */
 	private void readFile(String filePath) {
 		Scanner sc;
-		/*We found out patterns from these 2 sources while looking for better ways to read from a file:
-			https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
-			https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html#delimiter--
-		*/
+		// Documentation:
+		// https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
 		Pattern pattern = Pattern.compile("::|\n");
 
 		try {
 			sc = new Scanner(new File(filePath));
+			// Documentation:
+			// https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html#delimiter--
 			sc.useDelimiter(pattern);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -64,7 +67,7 @@ public class Glossary {
 	}
 
 	/**
-	 * Gets the size of the glossary.
+	 * Gets the number of Terms in the glossary.
 	 * 
 	 * @return - the size of the glossary
 	 */
@@ -82,9 +85,9 @@ public class Glossary {
 	}
 
 	/**
-	 * Adds a definition to a given term. If the part of speech is not present in
-	 * the term, it creates it. If the term is not present in the glossary, it
-	 * creates it.
+	 * Adds a definition to a given term. A new Term is added to the glossary if
+	 * this word hasn't yet been added. Updates the count of the corresponding part
+	 * of speech.
 	 * 
 	 * @param word - the word to add a definition for
 	 * @param pos  - the part of speech of the definition
@@ -106,7 +109,7 @@ public class Glossary {
 	}
 
 	/**
-	 * Updates the part of speech tracker of the glossary (increases the value).
+	 * Increments the count of the given part of speech.
 	 * 
 	 * @param pos - the part of speech to increment
 	 */
@@ -119,7 +122,7 @@ public class Glossary {
 	}
 
 	/**
-	 * Gets the amount of parts of speech in the glossary.
+	 * Gets the number of parts of speech in the glossary.
 	 * 
 	 * @return - the amount of parts of speech
 	 */
@@ -128,32 +131,33 @@ public class Glossary {
 	}
 
 	/**
-	 * Gets the first word lexicographically in the glossary, or an empty string if
-	 * the glossary is empty.
+	 * Gets the first word in the glossary when ordered lexicographically, or an
+	 * empty string if the glossary is empty.
 	 * 
-	 * @return - the first word, or an empty string
+	 * @return - the first word or an empty string
 	 */
 	public String getFirst() {
 		return glossary.size() == 0 ? "" : glossary.firstKey();
 	}
 
 	/**
-	 * Gets the last word lexicographically in the glossary, or an empty string if
-	 * the glossary is empty.
+	 * Gets the last word in the glossary when ordered lexicographically, or an
+	 * empty string if the glossary is empty.
 	 * 
-	 * @return - the last word, or an empty string
+	 * @return - the last word or an empty string
 	 */
 	public String getLast() {
 		return glossary.size() == 0 ? "" : glossary.lastKey();
 	}
 
 	/**
-	 * Gets all words contained within the glossary that are lexicographically
-	 * larger than the starting word, and smaller than the ending word.
+	 * Gets all words contained within the glossary that are larger than the
+	 * starting word and smaller than the ending word when ordered
+	 * lexicographically.
 	 * 
 	 * @param start - the starting word
 	 * @param end   - the ending word
-	 * @return - a set of words within the specified range, can be empty
+	 * @return - a Set of words within the specified range; can be empty
 	 */
 	public Set<String> getInRange(String start, String end) {
 		NavigableMap<String, Term> subMap = glossary.subMap(start, true, end, true);
@@ -161,8 +165,8 @@ public class Glossary {
 	}
 
 	/**
-	 * Gets the definitions of a word, or null if it is not present in the glossary.
-	 * Each definition is merged with it's part of speech.
+	 * Gets the formatted dictionary entries of a word, or null if the word is not
+	 * present in the glossary. Each definition is merged with its part of speech.
 	 * 
 	 * @param word - the word to search for
 	 * @return - the word's definitions or null
@@ -174,8 +178,8 @@ public class Glossary {
 	}
 
 	/**
-	 * Gets the parts of speech of a given word, or null if it is not present in the
-	 * glossary.
+	 * Gets the parts of speech of a given word's definitions, or null if the word
+	 * is not present in the glossary.
 	 * 
 	 * @param word - the word to search for
 	 * @return - the word's parts of speech or null
@@ -187,12 +191,12 @@ public class Glossary {
 	}
 
 	/**
-	 * Gets the definitions of a word, or null if it is not present in the glossary.
-	 * Each row represents a full definition, while each column contains the part of speech
-	 * and definition, in that order.
+	 * Gets the definitions of a word, or null if the word is not present in the
+	 * glossary. Each row represents a full entry, while the columns contain the
+	 * part of speech and definition, in that order.
 	 * 
 	 * @param word - the word to search for
-	 * @return - a 2d array containing the word's definitions
+	 * @return - a 2D array containing the word's definitions
 	 */
 	public String[][] getSplit(String word) {
 		Term term = glossary.get(word);
@@ -205,7 +209,7 @@ public class Glossary {
 	 * Updates a specified definition of a given word.
 	 * 
 	 * @param word   - the word to update
-	 * @param pos    - the part of the new definition
+	 * @param pos    - the part of speech of the new definition
 	 * @param oldDef - the old definition (gets removed)
 	 * @param newDef - the new definition (gets added)
 	 * @return - true if the definition was successfully updated
@@ -220,15 +224,15 @@ public class Glossary {
 	}
 
 	/**
-	 * Deletes a specified definition of a given word. Automatically removes the
-	 * parts of speech and the word itself as needed.
+	 * Deletes a specified definition of a given word. Removes the word itself if the last
+	 * definition is removed. Adjusts the appropriate part of speech count.
 	 * 
-	 * @param word - the word to delete from
-	 * @param pos  - the part of speech to delete from
+	 * @param word - the word corresponding with the definition to delete
+	 * @param pos  - the part of speech corresponding with the definition to delete
 	 * @param def  - the definition to delete
-	 * @return - the 0th index represents whether or not the definition was deleted
-	 *         successfully, while the 1st index represents whether or not the word
-	 *         was removed from the glossary
+	 * @return - a boolean array: the value at index 0 represents whether or not the
+	 *         definition was deleted successfully, while the value at index 1
+	 *         represents whether or not the word was removed from the glossary
 	 */
 	public boolean[] deleteDef(String word, String pos, String def) {
 		Term term = glossary.get(word);
@@ -258,9 +262,9 @@ public class Glossary {
 	}
 
 	/**
-	 * Saves the glossary to a given file path. Must save to an existing directory.
+	 * Saves the glossary to a given file path. Must save to a file in an existing directory.
 	 * 
-	 * @param filePath - the path to save to
+	 * @param filePath - the path of the file to save to
 	 * @return - true if the file was saved successfully
 	 */
 	public boolean saveToFile(String filePath) {
